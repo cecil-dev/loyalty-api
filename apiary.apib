@@ -1,53 +1,43 @@
 FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
+HOST: https://loyalty.cecil.org/
 
-# Cecil Medara
+# Loyalty API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+Back end for the White Label Loyalty mobile App
+## Business [/bussiness]
+### Create Bussiness [POST]
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
+            "name": "business name",
+            "branches": 2
+            "tills": 3
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "id": 1
+            }
+## Products [/product]
+### Create Products [POST]
+
++ Request (application/json)
+
+        {
+            "products": [
+                {
+                    "plu": "23232ewe",
+                    "branch_id": 2
+                    "desc": "Small Coffee"
+                }
             ]
         }
 
@@ -60,21 +50,120 @@ form of choices.
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "products": [
                     {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                        "id": 1,
+                        "plu": "23232ewe",
+                        "branch_id": 2
+                        "desc": "Small Coffee"
                     }
                 ]
             }
+
+
+## Customer [/user/{id}]
+
+### GET Customer [GET]
+
++ Response 200 (application/json)
+
+        {
+            "customer_id": 1,
+            "points_earned": 202002,
+            "offers_earned": [
+                {
+                    "id": "1",
+                    "desc": "Free Coffee",
+                    "reason": "5th Coffee free"
+                }, 
+                {
+                    "id": "2",
+                    "desc": "Free Lunch",
+                    "reason": "5th Lunch free"
+                }, 
+                ]
+        }
+        
+## Points [/sale]
+### Add Points [POST]
++ Request (application/json)
+
+        {
+            "sale_id": 1,
+            "customer_id": 121323,
+            "branch_id": 1,
+            "sale_items": [
+                {
+                    "plu": "23232ewe",
+                    "desc": "Small Coffee",
+                    "unit_price": 21:00,
+                    "qty": 2,
+                    "total_price": 121
+                }
+            ],
+            "sale_total_price": 1212.00
+            
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "points": 2300
+            }
+### Remove Points [DELETE]
++ Request (application/json)
+
+        {
+            "sale_id": 1, 
+            "customer_id": 121323,
+            "branch_id": 1,
+            "sale_items": [
+                {
+                    "plu": "23232ewe",
+                    "desc": "Small Coffee",
+                    "unit_price": 21:00,
+                    "qty": 2,
+                    "total_price": 121
+                }
+            ],
+            "sale_total_price": 1212.00
+            
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "points": 2300
+            }
+### GET Points [GET /user/{id}]
++ Request (application/json)
+
+    
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "points": 2300
+            }
+## Offers [/offer]
+### Create Offer [POST]
++ Request (application/json)
++ Response 201 (application/json)
